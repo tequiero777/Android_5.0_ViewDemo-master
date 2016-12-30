@@ -13,6 +13,7 @@ import com.moocnewsdemo.R;
 import com.moocnewsdemo.bean.NewsBean;
 import com.moocnewsdemo.utils.DiskCacheUtil;
 import com.moocnewsdemo.utils.LruCacheUtil;
+import com.moocnewsdemo.utils.ThreadUtil;
 
 import java.io.IOException;
 import java.util.List;
