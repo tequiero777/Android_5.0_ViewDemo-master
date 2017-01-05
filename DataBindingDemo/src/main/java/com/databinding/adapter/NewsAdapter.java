@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private List<ResultBean.NewsBean> list;
     private Context context;
+    private OnItemClickListener mOnItemClickListener;
 
     public NewsAdapter(Context context, List<ResultBean.NewsBean> list) {
         this.list = list;
@@ -37,11 +39,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
+    public void onBindViewHolder(NewsViewHolder holder, final int position) {
         //给ViewHolder绑定
         holder.bind(list.get(position));
         //加载图片
         Glide.with(context).load(list.get(position).getPicUrl()).into(holder.itemPicImage);
+
+        if( mOnItemClickListener!= null){
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onClick(position);
+                }
+            });
+
+            holder.itemView.setOnLongClickListener( new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mOnItemClickListener.onLongClick(position);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override
@@ -70,5 +90,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public void bind(@NonNull ResultBean.NewsBean news) {
             inBinding.setNews(news);
         }
+    }
+
+    public interface OnItemClickListener{
+        void onClick( int position);
+        void onLongClick( int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener ){
+        this. mOnItemClickListener=onItemClickListener;
     }
 }

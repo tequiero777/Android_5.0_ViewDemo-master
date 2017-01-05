@@ -30,6 +30,7 @@
         <activity android:name=".ui.AttrSetActivity" />
         <activity android:name=".ui.DynamicActivity" />
         <activity android:name=".ui.NewsActivity" />
+        <activity android:name=".ui.WebViewActivity" />
     </application>
 
 </manifest>

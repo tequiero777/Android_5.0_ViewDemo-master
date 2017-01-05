@@ -1,5 +1,6 @@
 package com.databinding.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -81,11 +82,27 @@ public class NewsActivity extends AppCompatActivity {
          * @param id       ID
          */
         @Override
-        public void onResponse(List<ResultBean.NewsBean> response, int id) {
+        public void onResponse(final List<ResultBean.NewsBean> response, int id) {
             ActivityNewsBinding anBinding = DataBindingUtil.setContentView(NewsActivity.this, R.layout.activity_news);
             anBinding.rlvNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
-            NewsAdapter newsAdapter = new NewsAdapter(NewsActivity.this, response);
+            final NewsAdapter newsAdapter = new NewsAdapter(NewsActivity.this, response);
             anBinding.rlvNews.setAdapter(newsAdapter);
+            newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(int position) {
+                    Intent intent = new Intent();
+                    intent.setClass(NewsActivity.this,WebViewActivity.class);
+                    intent.putExtra("url",response.get(position).getUrl());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onLongClick(int position) {
+                    response.remove(position);
+                    newsAdapter.notifyItemRemoved(position);
+                    newsAdapter.notifyItemRangeChanged(position, response.size());
+                }
+            });
         }
     }
 }
