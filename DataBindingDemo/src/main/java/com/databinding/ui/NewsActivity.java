@@ -21,6 +21,8 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import static android.databinding.DataBindingUtil.*;
+
 /**
  * Created by xiarui on 2016/8/27.
  * 功能：新闻列表
